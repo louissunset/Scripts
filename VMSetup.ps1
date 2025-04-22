@@ -6,7 +6,7 @@ if ($existingPath -split ";" -notcontains $newGitPath)
 	[Environment]::SetEnvironmentVariable("Path", $newpath, "Machine")
 }
 
-$downloads = [System.Environment]::GetFolderPath('Downloads')
+$downloads = [System.IO.Path]::Combine($env:USERPROFILE, 'Downloads')
 Set-Location -Path $downloads
 & git clone https://yunguprivate@dev.azure.com/yunguprivate/Tools/_git/VMSetup
 
