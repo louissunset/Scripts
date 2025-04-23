@@ -21,11 +21,8 @@ if (-not (Test-Path -Path $repoRoot\VMSetup))
 }
 else
 {
+   Set-Location -Path $repoRoot\VMSetup
    & git pull
 }
 
-if (Test-Path -Path $repoRoot\VMSetup) 
-{
-    cd VMSetup
-    Start-Process -wait powershell.exe -ArgumentList "& .\VMSetup.ps1 nopause"
-}
+Start-Process -wait powershell.exe -ArgumentList "& $repoRoot\VMSetup\VMSetup.ps1"
