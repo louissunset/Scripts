@@ -17,7 +17,7 @@ Set-Location -Path $repoRoot
 
 if (-not (Test-Path -Path $repoRoot\VMSetup)) 
 {
-   & git clone "https://yunguprivate@dev.azure.com/yunguprivate/Tools/_git/VMSetup"
+   & git clone "https://Dynamics365Assistant@dev.azure.com/Dynamics365Assistant/AIBot/_git/VMSetup"
 }
 else
 {
