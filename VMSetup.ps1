@@ -4,12 +4,28 @@ if ($existingPath -split ";" -notcontains $newGitPath)
 {
 	$newpath = $existingPath + ";" + $newGitPath
 	[Environment]::SetEnvironmentVariable("Path", $newpath, "Machine")
+
+    $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
-$downloads = [System.IO.Path]::Combine($env:USERPROFILE, 'Downloads')
-Set-Location -Path $downloads
-& git clone https://yunguprivate@dev.azure.com/yunguprivate/Tools/_git/VMSetup
+$repoRoot = (Join-Path -Path "C:\" -ChildPath "Enlistment")
+if (-not (Test-Path -Path $repoRoot)) {
+	New-Item -Path $repoRoot -ItemType Directory
+}
 
-$VMSetupFolder = (Join-Path -Path $downloads -ChildPath "VMSetup")
-Set-Location -Path $VMSetupFolder
-Start-Process powershell.exe -ArgumentList "& VMSetup.ps1"
+Set-Location -Path $repoRoot
+
+if (-not (Test-Path -Path $repoRoot\VMSetup)) 
+{
+   & git clone "https://yunguprivate@dev.azure.com/yunguprivate/Tools/_git/VMSetup"
+}
+else
+{
+   & git pull
+}
+
+if (Test-Path -Path $repoRoot\VMSetup) 
+{
+    cd VMSetup
+    Start-Process -wait powershell.exe -ArgumentList "& .\VMSetup.ps1 nopause"
+}
