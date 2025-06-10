@@ -13,16 +13,21 @@ if (-not (Test-Path -Path $repoRoot)) {
 	New-Item -Path $repoRoot -ItemType Directory
 }
 
-Set-Location -Path $repoRoot
+if (Test-Path -Path $repoRoot\VMSetup) {
+	if (-not (Test-Path $repoRoot\VMSetup\*)) {
+		Remove-Item $repoRoot\VMSetup -Recurse -Force
+	}
+}
 
 if (-not (Test-Path -Path $repoRoot\VMSetup)) 
 {
-   & git clone "https://Dynamics365Assistant@dev.azure.com/Dynamics365Assistant/AIBot/_git/VMSetup"
+	Set-Location -Path $repoRoot
+   	& git clone "https://Dynamics365Assistant@dev.azure.com/Dynamics365Assistant/AIBot/_git/VMSetup"
 }
 else
 {
-   Set-Location -Path $repoRoot\VMSetup
-   & git pull
+    Set-Location -Path $repoRoot\VMSetup
+    & git pull
 }
 
 Start-Process -wait powershell.exe -ArgumentList "& $repoRoot\VMSetup\VMSetup.ps1"
