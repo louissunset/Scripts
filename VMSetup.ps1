@@ -1,10 +1,3 @@
-# Check for admin rights
-if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-    Start-Process -FilePath "powershell.exe" -Verb RunAs -ArgumentList $arguments
-	exit
-}
-
 $existingPath = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 $newGitPath = "C:\Program Files\Git\bin"
 if ($existingPath -split ";" -notcontains $newGitPath)
